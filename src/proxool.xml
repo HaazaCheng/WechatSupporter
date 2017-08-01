@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxool-config>
+    <proxool>
+        <alias>sourceDb</alias>
+        <driver-url><![CDATA[jdbc:mysql://10.10.65.172:3306/wsa?useUnicode=true&characterEncoding=utf-8]]></driver-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <driver-properties>
+            <property name="user" value="wechat"/>
+            <property name="password" value="sklcc"/>
+        </driver-properties>
+        <house-keeping-sleep-time>900000</house-keeping-sleep-time>
+        <maximum-active-time>500000</maximum-active-time>
+        <maximum-connection-count>50</maximum-connection-count>
+        <minimum-connection-count>4</minimum-connection-count>
+        <house-keeping-test-sql>select 1</house-keeping-test-sql>
+        <prop key="hibernate.connection.release_mode">after_transaction</prop>
+    </proxool>
+
+    <proxool>
+        <alias>destDb</alias>
+        <driver-url><![CDATA[jdbc:mysql://139.196.188.70:3306/wsa?useUnicode=true&characterEncoding=utf-8]]></driver-url>
+        <driver-class>com.mysql.jdbc.Driver</driver-class>
+        <driver-properties>
+            <property name="user" value="wsa"/>
+            <property name="password" value="sklcc"/>
+        </driver-properties>
+        <house-keeping-sleep-time>900000</house-keeping-sleep-time>
+        <maximum-active-time>500000</maximum-active-time>
+        <maximum-connection-count>20</maximum-connection-count>
+        <minimum-connection-count>4</minimum-connection-count>
+        <house-keeping-test-sql>select 1</house-keeping-test-sql>
+        <prop key="hibernate.connection.release_mode">after_transaction</prop>
+    </proxool>
+
+</proxool-config>
