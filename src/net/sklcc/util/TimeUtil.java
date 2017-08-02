@@ -87,6 +87,29 @@ public class TimeUtil {
         return weekDays[w];
     }
 
+    /**
+     * 生成模板日期
+     *
+     * @param template 时间模板,包含年份和月份，例如"2017-06-"
+     * @param startday 一个月的开始时间
+     * @param endDay 一个月的截至日期
+     * @return 包含从开始日期到结束日期的模板时间
+     */
+    public static String[] generateFormatData(String template, int startday, int endDay) {
+        String[] res = new String[endDay - startday + 1];
+        for (int i = startday; i <= endDay; i++) {
+            if (i >= 1 && i <= 9) {
+                res[i - startday] = template + "0" + String.valueOf(i);
+            } else {
+                res[i - startday] = template + String.valueOf(i);
+            }
+        }
+
+        return res;
+    }
+
+
+
     public static void main(String[] args) throws ParseException {
 
 //        System.out.println(TimeUtil.convertMillsToDate(1470728691463L));
@@ -94,6 +117,10 @@ public class TimeUtil {
 //        System.out.println(TimeUtil.getIntervalDays(TimeUtil.convertStringToDate("2016-11-22"), TimeUtil.convertStringToDate("2016-11-23")));
 //        System.out.println(TimeUtil.addDay(TimeUtil.convertStringToDate("2016-11-12"), 1));
 //        System.out.println(TimeUtil.convertStringToDate("2016-11-12"));
-        System.out.println(TimeUtil.getWeekOfDate(new Date()));
+//        System.out.println(TimeUtil.getWeekOfDate(new Date()));
+        String[] res = TimeUtil.generateFormatData("2017-06-", 1, 30);
+        for (String s: res) {
+            System.out.println(s);
+        }
     }
 }
