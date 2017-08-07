@@ -68,7 +68,7 @@ public class TimeUtil {
      * @return
      */
     public static Date addDay(Date date, int i) {
-        Calendar calendar   =   new GregorianCalendar();
+        Calendar calendar = new GregorianCalendar();
         calendar.setTime(date);
         calendar.add(calendar.DATE, i);
         return calendar.getTime();
@@ -140,6 +140,17 @@ public class TimeUtil {
         return generateFormatData(year, month, 1, maxDays);
     }
 
+    /**
+     * 获得明天的格式化的日期，以字符串形式，格式为"xxxx-xx-xx"
+     *
+     * @return 返回的格式化的日期字符串
+     */
+    public static String getTomorrowFormatDate() {
+        Date d = TimeUtil.addDay(new Date(), 1);
+        String[] strs = convertDateToDateString(d).split("\\s+");
+
+        return strs[0].trim();
+    }
 
 
     public static void main(String[] args) throws ParseException {
@@ -150,10 +161,11 @@ public class TimeUtil {
 //        System.out.println(TimeUtil.addDay(TimeUtil.convertStringToDate("2016-11-12"), 1));
 //        System.out.println(TimeUtil.convertStringToDate("2016-11-12"));
 //        System.out.println(TimeUtil.getWeekOfDate(new Date()));
-        String[] res = TimeUtil.generateFormatData(2017, 2);
+        /*String[] res = TimeUtil.generateFormatData(2017, 2);
         for (String s: res) {
             System.out.println(s);
-        }
+        }*/
 
+        System.out.println(TimeUtil.getTomorrowFormatDate());
     }
 }
