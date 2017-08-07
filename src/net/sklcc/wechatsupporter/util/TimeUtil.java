@@ -75,20 +75,52 @@ public class TimeUtil {
     }
 
     /**
-     * 获得今天是星期几
-     * @param date
-     * @return
+     * 获得今天是星期几，以大写英文字符串返回
+     *
+     * @param date 日期
+     * @return　是星期几
      */
-    public static String getWeekOfDate(Date date) {
-        String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+    public static String getDayOfWeek(Date date) {
+        String[] weekDays = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
-        if (w < 0)
-            w = 0;
+        if (w < 0) w = 0;
         return weekDays[w];
     }
 
+    /**
+     * 获得该日期是一个月的第几天
+     *
+     * @param date　日期
+     * @return　第几天
+     */
+    public static int getDayOfMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int d = cal.get(Calendar.DAY_OF_MONTH);
+
+        return d;
+    }
+
+    /**
+     * 返回指定日期的上一个月
+     *
+     * @param date　指定日期
+     * @return　返回一个int数组，数组第一个值表示年份，第二个值表示月份
+     */
+    public static int[] getLastMonth(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int lastMonth = cal.get(Calendar.MONTH);
+        if (lastMonth < 1) {
+            lastMonth = 12;
+            --year;
+        }
+
+        return new int[]{year, lastMonth};
+    }
 
     /**
      * 按照给定的年份，月份，起始日，结束日，生成例如"xxxx-xx-xx"的模板日期，
@@ -166,6 +198,8 @@ public class TimeUtil {
             System.out.println(s);
         }*/
 
-        System.out.println(TimeUtil.getTomorrowFormatDate());
+//        System.out.println(TimeUtil.getTomorrowFormatDate());
+//        System.out.println(getDayOfMonth(new Date()));
+        System.out.println(getLastMonth(new Date())[0] + " " + getLastMonth(new Date())[1]);
     }
 }

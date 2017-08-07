@@ -303,7 +303,7 @@ public class AutoRecover {
     /**
      * 启动整个模块，对每一个帐号，对每一天执行操作
      */
-    private void doRecover() {
+    public void doRecover() {
         for (String account: accounts) {
             int temp = absentArticlesCounter;
             for (String date : dates) {

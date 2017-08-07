@@ -1,5 +1,6 @@
 package net.sklcc.wechatsupporter;
 
+import net.sklcc.wechatsupporter.recover.AutoRecover;
 import net.sklcc.wechatsupporter.util.TimeUtil;
 import org.apache.log4j.Logger;
 
@@ -24,7 +25,7 @@ public class WechatSupporter {
         Counter counter = new Counter();
         syncMan syncman = new syncMan();
 
-        if (TimeUtil.getWeekOfDate(new Date()).equals("星期一")) {
+        if (TimeUtil.getDayOfWeek(new Date()).equals("MONDAY")) {
             logger.info("Start to update account infos.");
             AccountInfoUpdater accountInfoUpdater = new AccountInfoUpdater();
             try {
@@ -91,8 +92,12 @@ public class WechatSupporter {
 
         logger.info("Start to check deleted articles...");
         HTMLHelper.deleteCheck();
-/*
-        DateDataRecover dateDataRecover = new DateDataRecover();
-        dateDataRecover.doTask();*/
+
+        if (TimeUtil.getDayOfMonth(new Date()) == 8) {
+            int[] month = TimeUtil.getLastMonth(new Date());
+            logger.info("Start to recover data in " + month[0] + " " + month[1] + "...");
+            AutoRecover autoRecover = new AutoRecover(month[0], month[1]);
+            autoRecover.doRecover();
+        }
     }
 }
