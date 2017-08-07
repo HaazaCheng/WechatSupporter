@@ -1,8 +1,9 @@
-package net.sklcc;
+package net.sklcc.wechatsupporter;
 
 import cn.gsdata.index.ApiSdk;
-import net.sklcc.db.DBServer;
-import net.sklcc.util.TimeUtil;
+import net.sklcc.wechatsupporter.db.DBServer;
+import net.sklcc.wechatsupporter.useless.DataProvider;
+import net.sklcc.wechatsupporter.util.TimeUtil;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONException;

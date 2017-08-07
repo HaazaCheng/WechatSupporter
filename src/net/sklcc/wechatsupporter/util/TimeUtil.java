@@ -1,4 +1,4 @@
-package net.sklcc.util;
+package net.sklcc.wechatsupporter.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;

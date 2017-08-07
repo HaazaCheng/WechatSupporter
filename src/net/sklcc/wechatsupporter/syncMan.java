@@ -1,6 +1,6 @@
-package net.sklcc;
+package net.sklcc.wechatsupporter;
 
-import net.sklcc.db.DBServer;
+import net.sklcc.wechatsupporter.db.DBServer;
 import org.apache.log4j.Logger;
 
 import java.sql.ResultSet;

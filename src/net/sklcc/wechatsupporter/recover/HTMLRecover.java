@@ -1,6 +1,5 @@
-package net.sklcc.recover;
+package net.sklcc.wechatsupporter.recover;
 
-import net.sklcc.HTMLGetter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 

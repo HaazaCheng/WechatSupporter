@@ -1,4 +1,4 @@
-package net.sklcc.db;
+package net.sklcc.wechatsupporter.db;
 
 import org.logicalcobwebs.proxool.configuration.JAXPConfigurator;
 

@@ -1,11 +1,10 @@
-package net.sklcc.util;
+package net.sklcc.wechatsupporter.util;
 
-import net.sklcc.db.DBServer;
+import net.sklcc.wechatsupporter.db.DBServer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Hazza on 2017/2/22.

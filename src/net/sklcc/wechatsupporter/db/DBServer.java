@@ -1,4 +1,4 @@
-package net.sklcc.db;
+package net.sklcc.wechatsupporter.db;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

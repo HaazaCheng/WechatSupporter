@@ -1,7 +1,6 @@
-package net.sklcc.test;
+package net.sklcc.wechatsupporter.test;
 
 import cn.gsdata.index.ApiSdk;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;

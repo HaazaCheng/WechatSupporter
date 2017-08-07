@@ -1,6 +1,6 @@
-package net.sklcc.recover;
+package net.sklcc.wechatsupporter.recover;
 
-import net.sklcc.util.TimeUtil;
+import net.sklcc.wechatsupporter.util.TimeUtil;
 
 /**
  * Created by hazza on 8/7/17.

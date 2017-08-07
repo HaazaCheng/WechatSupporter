@@ -1,7 +1,7 @@
-package net.sklcc;
+package net.sklcc.wechatsupporter;
 
-import net.sklcc.db.DBServer;
-import net.sklcc.util.TimeUtil;
+import net.sklcc.wechatsupporter.db.DBServer;
+import net.sklcc.wechatsupporter.util.TimeUtil;
 import org.apache.log4j.Logger;
 
 import java.sql.*;

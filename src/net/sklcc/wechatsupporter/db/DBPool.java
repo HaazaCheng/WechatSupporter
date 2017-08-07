@@ -1,6 +1,6 @@
-package net.sklcc.db;
+package net.sklcc.wechatsupporter.db;
 
-import net.sklcc.util.ClassUtil;
+import net.sklcc.wechatsupporter.util.ClassUtil;
 
 /**
  * Created by Hazza on 2016/10/9.

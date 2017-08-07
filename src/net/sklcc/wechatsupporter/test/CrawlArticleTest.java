@@ -1,14 +1,12 @@
-package net.sklcc.test;
+package net.sklcc.wechatsupporter.test;
 
 
 import cn.gsdata.index.ApiSdk;
-import net.sklcc.db.DBServer;
-import net.sklcc.util.TimeUtil;
+import net.sklcc.wechatsupporter.util.TimeUtil;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;

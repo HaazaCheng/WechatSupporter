@@ -1,4 +1,4 @@
-package net.sklcc.db;
+package net.sklcc.wechatsupporter.db;
 
 import java.sql.*;
 import java.util.HashMap;

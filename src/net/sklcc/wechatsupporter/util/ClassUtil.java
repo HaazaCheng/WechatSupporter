@@ -1,7 +1,4 @@
-package net.sklcc.util;
-
-import java.io.File;
-import java.io.UnsupportedEncodingException;
+package net.sklcc.wechatsupporter.util;
 
 /**
  * Created by Hazza on 2016/8/4.
