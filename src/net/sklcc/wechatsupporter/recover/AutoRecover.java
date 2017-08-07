@@ -4,6 +4,7 @@ import cn.gsdata.index.ApiSdk;
 import net.sklcc.wechatsupporter.CrawlArticle;
 import net.sklcc.wechatsupporter.db.DBServer;
 import net.sklcc.wechatsupporter.object.ArticleInfos;
+import net.sklcc.wechatsupporter.util.GroupUtil;
 import net.sklcc.wechatsupporter.util.TimeUtil;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -24,19 +25,52 @@ public class AutoRecover {
     private final static String readsAndLikesApiUrl = "http://open.gsdata.cn/api/wx/wxapi/wx_week_readnum";
 
     private static Logger logger = Logger.getLogger(CrawlArticle.class.getName());
+    private static final int[] ignoreGroup = {5, 11};
     private final String[] dates;
-
+    private final List<String> accounts;
     private int absentArticlesCounter;
 
     /**
-     * 构造函数
+     * 构造函数，在其中初始化了日期和账号
      *
      * @param year　年份
      * @param month　月份
      */
     public AutoRecover(int year, int month) {
         dates = TimeUtil.generateFormatData(year, month);
+        accounts = getAccounts();
+        for (String a: accounts) {
+            System.out.println(a);
+        }
         absentArticlesCounter = 0;
+    }
+
+    /**
+     * 从数据库中读取需要恢复的公众号
+     *
+     * @return
+     */
+    private List<String> getAccounts() {
+        //获得不抓取的公众号
+        Set<String> ignoreAccounts = GroupUtil.getGroupAccounts(ignoreGroup);
+        List<String> accounts = new ArrayList<>();
+        DBServer sourceDBServer = new DBServer("proxool.sourceDb");
+
+        String sql = "select official_account from wsa_official_account";
+        try (ResultSet rs = sourceDBServer.select(sql)) {
+            while (rs.next()) {
+                if (!ignoreAccounts.contains(rs.getString(1))) {
+                    accounts.add(rs.getString(1));
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getClass() + " " + Arrays.toString(e.getStackTrace()));
+        } finally {
+            sourceDBServer.close();
+        }
+
+        logger.info(accounts.size() + " official_accounts need to be checked to recover.");
+        return accounts;
     }
 
     /**
@@ -108,16 +142,18 @@ public class AutoRecover {
                 params.put(9, article.getAuthor());
                 params.put(10, article.getCopyright());
                 try {
-                    sourceDBServer.insert("test_wsa_article", columns, params);
+                    sourceDBServer.insert("wsa_article", columns, params);
                     absentArticles.add(article);
                     ++absentArticlesCounter;
-                    logger.info("LOSE: " + article);
+                    logger.info("LOSE: " + account + "-" + article);
                 } catch (Exception e) {
                     logger.error(e.getClass() + " " + Arrays.toString(e.getStackTrace()));
                 }
             }
         }
         sourceDBServer.close();
+        if (absentArticles.isEmpty())
+            logger.info(account + " lose " + absentArticles.size() + " articles in " + date);
 
         return absentArticles;
     }
@@ -131,7 +167,7 @@ public class AutoRecover {
         DBServer sourceDBServer = new DBServer("proxool.sourceDb");
         for (ArticleInfos article: articles) {
             //因为要保持本地数据库和远程数据库文章id一致，所以要先从本地数据库读出文章id,插入文章对象里．
-            String sql = "select id from test_wsa_article " +
+            String sql = "select id from wsa_article " +
                     "where official_account = '" + article.getAccount() +
                     "' and title = '" + article.getTitle() + "'";
             try (ResultSet rs = sourceDBServer.select(sql)) {
@@ -169,7 +205,7 @@ public class AutoRecover {
                     params.put(9, article.getSource_url());
                     params.put(10, article.getAuthor());
                     params.put(11, article.getCopyright());
-                    destDBServer.insert("test_wsa_article", columns, params);
+                    destDBServer.insert("wsa_article", columns, params);
                 } else {
                     logger.info("Unable to insert into remote db: " + article);
                 }
@@ -224,6 +260,14 @@ public class AutoRecover {
             read_num[6] = (int) ((JSONObject) jsonArray.get(0)).get("read_num_7");
             like_num[6] = (int) ((JSONObject) jsonArray.get(0)).get("like_num_7");
 
+            logger.info(article.getTitle() + " " + article.getUrl() + " " + article.getPublish_time() + "\n" +
+                    "Day 1: " + read_num[0] + " " + like_num[0] + "\n" +
+                    "Day 2: " + read_num[1] + " " + like_num[1] + "\n" +
+                    "Day 3: " + read_num[2] + " " + like_num[2] + "\n" +
+                    "Day 4: " + read_num[3] + " " + like_num[3] + "\n" +
+                    "Day 5: " + read_num[4] + " " + like_num[4] + "\n" +
+                    "Day 6: " + read_num[5] + " " + like_num[5] + "\n" +
+                    "Day 7: " + read_num[6] + " " + like_num[6] );
 
             for (int i = 0; i < 7; i++) {
                 HashMap<Integer, Object> params = new HashMap<>();
@@ -244,17 +288,8 @@ public class AutoRecover {
                 params.put(3, like_num[i]);
                 params.put(4, add_time);
                 try {
-                    sourceDBServer.insert("test_wsa_article_stats", columns, params);
-                    destDBServer.insert("test_wsa_article_stats", columns, params);
-
-                    logger.info(article.getTitle() + " " + article.getUrl() + " " + article.getPublish_time() + "\n" +
-                            "Day 1: " + read_num[0] + " " + like_num[0] + "\n" +
-                            "Day 2: " + read_num[1] + " " + like_num[1] + "\n" +
-                            "Day 3: " + read_num[2] + " " + like_num[2] + "\n" +
-                            "Day 4: " + read_num[3] + " " + like_num[3] + "\n" +
-                            "Day 5: " + read_num[4] + " " + like_num[4] + "\n" +
-                            "Day 6: " + read_num[5] + " " + like_num[5] + "\n" +
-                            "Day 7: " + read_num[6] + " " + like_num[6] );
+                    sourceDBServer.insert("wsa_article_stats", columns, params);
+                    destDBServer.insert("wsa_article_stats", columns, params);
                 } catch (Exception e) {
                     logger.error(e.getClass() + " " + Arrays.toString(e.getStackTrace()));
                 }
@@ -265,14 +300,25 @@ public class AutoRecover {
         destDBServer.close();
     }
 
+    /**
+     * 启动整个模块，对每一个帐号，对每一天执行操作
+     */
     private void doRecover() {
-        for (String date: dates) {
-            Set<String> existArticlesTitle = getExistArticlesTitle("suzhoudaily", date);
-            List<ArticleInfos> absentArticles = getAbsentArticles(existArticlesTitle, "suzhoudaily", date);
-            setArticleId(absentArticles);
-//            saveToRemoteDB(absentArticles);
-            getReadsAndLikes(absentArticles, date);
+        for (String account: accounts) {
+            int temp = absentArticlesCounter;
+            for (String date : dates) {
+                Set<String> existArticlesTitle = getExistArticlesTitle(account, date);
+                List<ArticleInfos> absentArticles = getAbsentArticles(existArticlesTitle, account, date);
+                setArticleId(absentArticles);
+                saveToRemoteDB(absentArticles);
+                getReadsAndLikes(absentArticles, date);
+            }
+            if (absentArticlesCounter - temp > 0)
+                logger.info(account + " lose " + (absentArticlesCounter - temp) +
+                        " articles from " + dates[0] + " to " + dates[dates.length - 1]);
         }
+        logger.info("Lose " + absentArticlesCounter+
+                " articles from " + dates[0] + " to " + dates[dates.length - 1] + " totally.");
     }
 
 
