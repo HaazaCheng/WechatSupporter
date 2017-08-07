@@ -14,7 +14,8 @@ public class DBManager {
     private DBManager() {
         try {
 //        JAXPConfigurator.configure("/home/sklcc/hazza/wechat/proxool.xml", false);
-        JAXPConfigurator.configure("D:\\codes\\WechatSupporterStable\\src/proxool.xml", false);
+//        JAXPConfigurator.configure("D:\\codes\\WechatSupporterStable\\src/proxool.xml", false);
+            JAXPConfigurator.configure("/home/hazza/codes/java/WechatSupporter/src/proxool.xml", false);
             Class.forName("org.logicalcobwebs.proxool.ProxoolDriver");
         } catch (Exception e) {
             e.printStackTrace();
