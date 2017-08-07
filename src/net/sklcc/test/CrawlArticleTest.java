@@ -107,7 +107,7 @@ public class CrawlArticleTest {
         CrawlArticleTest ca = new CrawlArticleTest();
 //        ca.crawl();
 
-        String[] dates = TimeUtil.generateFormatData("2017-06-", 1, 30);
+        String[] dates = TimeUtil.generateFormatData(2017, 6, 1, 30);
         for (int i = 0; i < dates.length; i++) {
             ca.date = dates[i];
             ca.crawl();

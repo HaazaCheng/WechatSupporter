@@ -13,6 +13,8 @@ import java.util.GregorianCalendar;
 public class TimeUtil {
     private TimeUtil() {}
 
+
+
     /**
      * 将当前时间转换为指定格式
      * @param currentTimeMillis
@@ -87,25 +89,55 @@ public class TimeUtil {
         return weekDays[w];
     }
 
+
     /**
-     * 生成模板日期
+     * 按照给定的年份，月份，起始日，结束日，生成例如"xxxx-xx-xx"的模板日期，
+     * 缺０会补齐０，并做相关非法性判断
      *
-     * @param template 时间模板,包含年份和月份，例如"2017-06-"
-     * @param startday 一个月的开始时间
-     * @param endDay 一个月的截至日期
-     * @return 包含从开始日期到结束日期的模板时间
+     * @param year　年份
+     * @param month　月份
+     * @param startDay　起始日期
+     * @param endDay　结束日期
+     * @return　包含模板日期的String数组
      */
-    public static String[] generateFormatData(String template, int startday, int endDay) {
-        String[] res = new String[endDay - startday + 1];
-        for (int i = startday; i <= endDay; i++) {
+    public static String[] generateFormatData(int year, int month, int startDay, int endDay) {
+        if (month < 1 || month > 12) throw new IllegalArgumentException("The month is invalid!");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month - 1);
+        int maxDays = cal.getActualMaximum(Calendar.DATE);
+        if (startDay < 1) throw new IllegalArgumentException("The startDay is less than 1!");
+        if (endDay > maxDays) throw new IllegalArgumentException("The startDay is less than the max days in month of " + month);
+
+        String template = String.valueOf(year) + "-" +
+                (month < 10 ? "0" + String.valueOf(month) : String.valueOf(month)) + "-";
+
+        String[] res = new String[endDay - startDay + 1];
+        for (int i = startDay; i <= endDay; i++) {
             if (i >= 1 && i <= 9) {
-                res[i - startday] = template + "0" + String.valueOf(i);
+                res[i - startDay] = template + "0" + String.valueOf(i);
             } else {
-                res[i - startday] = template + String.valueOf(i);
+                res[i - startDay] = template + String.valueOf(i);
             }
         }
 
         return res;
+    }
+
+    /**
+     * 只给定年份和月份，生成该月份的所有模板日期
+     *
+     * @param year　年份
+     * @param month　月份
+     * @return　该月份的所有模板日期
+     */
+    public static String[] generateFormatData(int year, int month) {
+        if (month < 1 || month > 12) throw new IllegalArgumentException("The month is invalid!");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month - 1);
+        int maxDays = cal.getActualMaximum(Calendar.DATE);
+        return generateFormatData(year, month, 1, maxDays);
     }
 
 
@@ -118,9 +150,10 @@ public class TimeUtil {
 //        System.out.println(TimeUtil.addDay(TimeUtil.convertStringToDate("2016-11-12"), 1));
 //        System.out.println(TimeUtil.convertStringToDate("2016-11-12"));
 //        System.out.println(TimeUtil.getWeekOfDate(new Date()));
-        String[] res = TimeUtil.generateFormatData("2017-06-", 1, 30);
+        String[] res = TimeUtil.generateFormatData(2017, 2);
         for (String s: res) {
             System.out.println(s);
         }
+
     }
 }
