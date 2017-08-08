@@ -65,7 +65,7 @@ public class CrawlArticle {
      */
     private void getArticles(String account) throws Exception {
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date yesterday = new Date(System.currentTimeMillis() - (24 * 3600 * 1000 * 2));
+        Date yesterday = new Date(System.currentTimeMillis() - (24 * 3600 * 1000));
 
         ApiSdk apiSdk = ApiSdk.getApiSdk(appId,appKey);
         Map<String, Object> map = new HashMap<>();
