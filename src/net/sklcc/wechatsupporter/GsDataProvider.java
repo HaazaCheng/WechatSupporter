@@ -21,8 +21,8 @@ import java.util.*;
 public class GsDataProvider {
     private static Logger logger = Logger.getLogger(DataProvider.class.getName());
 
-    private final static String appId = "aJ2Vx03fS7j4LdxeSrb5";
-    private final static String appKey = "zgaWRumyOf586J7z7uiH9E2D4";
+    private final static String appId = "";
+    private final static String appKey = "";
     private final static String apiUrl = "http://open.gsdata.cn/api/wx/wxapi/wx_week_readnum";
 
     private int read_num[];

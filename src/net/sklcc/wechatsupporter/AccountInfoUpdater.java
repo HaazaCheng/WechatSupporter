@@ -19,9 +19,9 @@ import java.util.Map;
 public class AccountInfoUpdater {
     private static Logger logger = Logger.getLogger(CrawlArticle.class.getName());
 
-    private final static String appId = "aJ2Vx03fS7j4LdxeSrb5";
-    private final static String appKey = "zgaWRumyOf586J7z7uiH9E2D4";
-    private final static String apiUrl = "http://open.gsdata.cn/api/wx/wxapi/nickname_one";
+    private final static String appId = "";
+    private final static String appKey = "";
+    private final static String apiUrl = "";
 
     List<String[]> accounts;
 

@@ -21,9 +21,9 @@ import java.util.Map.Entry;
 public class CrawlArticle {
     private static Logger logger = Logger.getLogger(CrawlArticle.class.getName());
 
-    private final static String appId = "aJ2Vx03fS7j4LdxeSrb5";
-    private final static String appKey = "zgaWRumyOf586J7z7uiH9E2D4";
-    private final static String apiUrl = "http://open.gsdata.cn/api/wx/opensearchapi/content_list";
+    private final static String appId = "";
+    private final static String appKey = "";
+    private final static String apiUrl = "";
 
     private List<String> official_accounts; //保存获取的微信公众号
     private int article_cnt;    //获得的文章数量
